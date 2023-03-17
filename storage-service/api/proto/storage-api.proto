@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package storage_service;
+
+import "google/protobuf/wrappers.proto";
+
+option go_package = "wbHTTPServer/storage-service";
+
+
+service StorageService {
+    rpc GetUser (UserInfo) returns (UserInfo);
+    rpc CreateUser (UserInfo) returns (EmptyMessage);
+    rpc UpdateUser (UserInfo) returns (EmptyMessage);
+    rpc DeleteUser (UserInfo) returns (EmptyMessage);
+
+    rpc GetStore (StoreInfo) returns (StoreInfo);
+    rpc CreateStore (StoreInfo) returns (EmptyMessage);
+    rpc UpdateStore (StoreInfo) returns (EmptyMessage);
+    rpc DeleteStore (StoreInfo) returns (EmptyMessage);
+}
+
+message EmptyMessage {}
+
+message UserInfo {
+    .google.protobuf.StringValue surname = 1;
+    .google.protobuf.StringValue name = 2;
+    .google.protobuf.StringValue secondname = 3;
+    optional .google.protobuf.UInt32Value age = 4; 
+    .google.protobuf.UInt32Value  register_date_timestamp = 5;
+}
+
+message StoreInfo {
+    .google.protobuf.StringValue name = 1;
+    .google.protobuf.StringValue address = 2;
+    .google.protobuf.BoolValue working = 3;
+    optional .google.protobuf.StringValue owner = 4;
+}
