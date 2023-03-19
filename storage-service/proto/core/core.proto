@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package core;
+
+option go_package = "wbHTTPServer/storage-service/api/core";
+
+message EmptyMessage {}

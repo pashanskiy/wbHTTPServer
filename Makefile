@@ -10,3 +10,6 @@ go-gen: go-install
 	go generate ./...
 	go get -u -t -v ./... || :
 	go mod tidy
+
+go-run-storage:
+	go run ./storage-service/cmd/main.go
