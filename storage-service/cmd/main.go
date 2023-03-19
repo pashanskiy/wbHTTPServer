@@ -6,6 +6,7 @@ import (
 
 	apiUserStorageService "wbHTTPServer/storage-service/api/user"
 	config "wbHTTPServer/storage-service/config"
+	dbService "wbHTTPServer/storage-service/internal/db"
 	envParse "wbHTTPServer/storage-service/internal/env-parse"
 	grpcInterceptors "wbHTTPServer/storage-service/internal/interceptor"
 	loggerService "wbHTTPServer/storage-service/internal/logger"
@@ -16,7 +17,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-//defaults for -ldflags
+// defaults for -ldflags
 var ServiceName = "Storage"
 var BuildDate = "nil"
 
@@ -30,9 +31,11 @@ func main() {
 		BuildDate,
 	)
 
+	db := dbService.NewDB(logger).Gorm
+
 	grpcServer := grpc.NewServer(grpcInterceptors.GrpcServerWithInterceptors(logger)...)
 
-	apiUserStorageService.RegisterUserStorageServiceServer(grpcServer, storageService.NewUserStorageService())
+	apiUserStorageService.RegisterUserStorageServiceServer(grpcServer, storageService.NewUserStorageService(db))
 
 	runService(serviceConfig, grpcServer)
 }
