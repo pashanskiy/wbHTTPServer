@@ -103,10 +103,7 @@ func (r *DB) migrateDB() {
 		log.Info().Msgf("Directory with database migrations: %s", migrationsDirPath)
 	}
 
-	// We connect to the database with the rights to edit the database schema
-
 	db, err := r.Gorm.DB()
-	// db, err := sql.Open("sqlite3", r.Config.DataBaseFilePath)
 	if err != nil {
 		log.Panic().Err(err).Msg("Failed to connect to database to run migrations")
 	}

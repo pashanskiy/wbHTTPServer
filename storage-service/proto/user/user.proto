@@ -7,21 +7,40 @@ import "core/core.proto";
 option go_package = "wbHTTPServer/storage-service/api/proto";
 
 service UserStorageService {
-    rpc GetUser (GetUserInfo) returns (UserInfo);
-    rpc CreateUser (UserInfo) returns (core.EmptyMessage);
-    rpc UpdateUser (UserInfo) returns (core.EmptyMessage);
-    rpc DeleteUser (UserInfo) returns (core.EmptyMessage);
+    rpc GetUsers (UserInfo) returns (GetUsersResponse);
+    rpc CreateUser (CreateUsersRequest) returns (core.EmptyMessage);
+    rpc UpdateUser (UpdateUsersRequest) returns (core.EmptyMessage);
+    rpc DeleteUser (DeleteUserRequest) returns (core.EmptyMessage);
 }
 
-message GetUserInfo {
+message GetUsersResponse {
+    repeated UserInfo UsersInfo = 1;
+ }
+
+ message UserInfo {
+    optional string uid = 1;
+    optional string surname = 2;
+    optional string name = 3;
+    optional string secondname = 4;
+    optional int32 age = 5; 
+    optional int64 register_date_timestamp = 6;
+}
+
+message CreateUsersRequest {
     string surname = 1;
-    UserInfo fields = 2;
-}
-
-message UserInfo {
-    optional string surname = 1;
     optional string name = 2;
     optional string secondname = 3;
-    optional uint32 age = 4; 
-    optional uint32 register_date_timestamp = 5;
+    optional int32 age = 4; 
+}
+
+message UpdateUsersRequest {
+    string uid = 1;
+    optional string surname = 2;
+    optional string name = 3;
+    optional string secondname = 4;
+    optional int32 age = 5; 
+}
+
+message DeleteUserRequest {
+    string uid = 1;
 }

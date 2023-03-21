@@ -20,7 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserStorageService_GetUser_FullMethodName    = "/user_service.UserStorageService/GetUser"
+	UserStorageService_GetUsers_FullMethodName   = "/user_service.UserStorageService/GetUsers"
 	UserStorageService_CreateUser_FullMethodName = "/user_service.UserStorageService/CreateUser"
 	UserStorageService_UpdateUser_FullMethodName = "/user_service.UserStorageService/UpdateUser"
 	UserStorageService_DeleteUser_FullMethodName = "/user_service.UserStorageService/DeleteUser"
@@ -30,10 +30,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserStorageServiceClient interface {
-	GetUser(ctx context.Context, in *GetUserInfo, opts ...grpc.CallOption) (*UserInfo, error)
-	CreateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error)
-	UpdateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error)
-	DeleteUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error)
+	GetUsers(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*GetUsersResponse, error)
+	CreateUser(ctx context.Context, in *CreateUsersRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error)
+	UpdateUser(ctx context.Context, in *UpdateUsersRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error)
+	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error)
 }
 
 type userStorageServiceClient struct {
@@ -44,16 +44,16 @@ func NewUserStorageServiceClient(cc grpc.ClientConnInterface) UserStorageService
 	return &userStorageServiceClient{cc}
 }
 
-func (c *userStorageServiceClient) GetUser(ctx context.Context, in *GetUserInfo, opts ...grpc.CallOption) (*UserInfo, error) {
-	out := new(UserInfo)
-	err := c.cc.Invoke(ctx, UserStorageService_GetUser_FullMethodName, in, out, opts...)
+func (c *userStorageServiceClient) GetUsers(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*GetUsersResponse, error) {
+	out := new(GetUsersResponse)
+	err := c.cc.Invoke(ctx, UserStorageService_GetUsers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userStorageServiceClient) CreateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
+func (c *userStorageServiceClient) CreateUser(ctx context.Context, in *CreateUsersRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
 	out := new(core.EmptyMessage)
 	err := c.cc.Invoke(ctx, UserStorageService_CreateUser_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -62,7 +62,7 @@ func (c *userStorageServiceClient) CreateUser(ctx context.Context, in *UserInfo,
 	return out, nil
 }
 
-func (c *userStorageServiceClient) UpdateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
+func (c *userStorageServiceClient) UpdateUser(ctx context.Context, in *UpdateUsersRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
 	out := new(core.EmptyMessage)
 	err := c.cc.Invoke(ctx, UserStorageService_UpdateUser_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -71,7 +71,7 @@ func (c *userStorageServiceClient) UpdateUser(ctx context.Context, in *UserInfo,
 	return out, nil
 }
 
-func (c *userStorageServiceClient) DeleteUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
+func (c *userStorageServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
 	out := new(core.EmptyMessage)
 	err := c.cc.Invoke(ctx, UserStorageService_DeleteUser_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -84,10 +84,10 @@ func (c *userStorageServiceClient) DeleteUser(ctx context.Context, in *UserInfo,
 // All implementations must embed UnimplementedUserStorageServiceServer
 // for forward compatibility
 type UserStorageServiceServer interface {
-	GetUser(context.Context, *GetUserInfo) (*UserInfo, error)
-	CreateUser(context.Context, *UserInfo) (*core.EmptyMessage, error)
-	UpdateUser(context.Context, *UserInfo) (*core.EmptyMessage, error)
-	DeleteUser(context.Context, *UserInfo) (*core.EmptyMessage, error)
+	GetUsers(context.Context, *UserInfo) (*GetUsersResponse, error)
+	CreateUser(context.Context, *CreateUsersRequest) (*core.EmptyMessage, error)
+	UpdateUser(context.Context, *UpdateUsersRequest) (*core.EmptyMessage, error)
+	DeleteUser(context.Context, *DeleteUserRequest) (*core.EmptyMessage, error)
 	mustEmbedUnimplementedUserStorageServiceServer()
 }
 
@@ -95,16 +95,16 @@ type UserStorageServiceServer interface {
 type UnimplementedUserStorageServiceServer struct {
 }
 
-func (UnimplementedUserStorageServiceServer) GetUser(context.Context, *GetUserInfo) (*UserInfo, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+func (UnimplementedUserStorageServiceServer) GetUsers(context.Context, *UserInfo) (*GetUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
 }
-func (UnimplementedUserStorageServiceServer) CreateUser(context.Context, *UserInfo) (*core.EmptyMessage, error) {
+func (UnimplementedUserStorageServiceServer) CreateUser(context.Context, *CreateUsersRequest) (*core.EmptyMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (UnimplementedUserStorageServiceServer) UpdateUser(context.Context, *UserInfo) (*core.EmptyMessage, error) {
+func (UnimplementedUserStorageServiceServer) UpdateUser(context.Context, *UpdateUsersRequest) (*core.EmptyMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (UnimplementedUserStorageServiceServer) DeleteUser(context.Context, *UserInfo) (*core.EmptyMessage, error) {
+func (UnimplementedUserStorageServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*core.EmptyMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedUserStorageServiceServer) mustEmbedUnimplementedUserStorageServiceServer() {}
@@ -120,26 +120,26 @@ func RegisterUserStorageServiceServer(s grpc.ServiceRegistrar, srv UserStorageSe
 	s.RegisterService(&UserStorageService_ServiceDesc, srv)
 }
 
-func _UserStorageService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserInfo)
+func _UserStorageService_GetUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserInfo)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserStorageServiceServer).GetUser(ctx, in)
+		return srv.(UserStorageServiceServer).GetUsers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserStorageService_GetUser_FullMethodName,
+		FullMethod: UserStorageService_GetUsers_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserStorageServiceServer).GetUser(ctx, req.(*GetUserInfo))
+		return srv.(UserStorageServiceServer).GetUsers(ctx, req.(*UserInfo))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserStorageService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserInfo)
+	in := new(CreateUsersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -151,13 +151,13 @@ func _UserStorageService_CreateUser_Handler(srv interface{}, ctx context.Context
 		FullMethod: UserStorageService_CreateUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserStorageServiceServer).CreateUser(ctx, req.(*UserInfo))
+		return srv.(UserStorageServiceServer).CreateUser(ctx, req.(*CreateUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserStorageService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserInfo)
+	in := new(UpdateUsersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -169,13 +169,13 @@ func _UserStorageService_UpdateUser_Handler(srv interface{}, ctx context.Context
 		FullMethod: UserStorageService_UpdateUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserStorageServiceServer).UpdateUser(ctx, req.(*UserInfo))
+		return srv.(UserStorageServiceServer).UpdateUser(ctx, req.(*UpdateUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserStorageService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserInfo)
+	in := new(DeleteUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -187,7 +187,7 @@ func _UserStorageService_DeleteUser_Handler(srv interface{}, ctx context.Context
 		FullMethod: UserStorageService_DeleteUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserStorageServiceServer).DeleteUser(ctx, req.(*UserInfo))
+		return srv.(UserStorageServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -200,8 +200,8 @@ var UserStorageService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserStorageServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetUser",
-			Handler:    _UserStorageService_GetUser_Handler,
+			MethodName: "GetUsers",
+			Handler:    _UserStorageService_GetUsers_Handler,
 		},
 		{
 			MethodName: "CreateUser",

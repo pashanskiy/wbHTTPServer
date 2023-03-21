@@ -1,0 +1,14 @@
+package errors
+
+import (
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+)
+
+var (
+	ErrCreateUser = status.Error(codes.Internal, "create user error")
+	ErrInvalidUID = status.Error(codes.InvalidArgument, "invalid user uid")
+	ErrGetUser    = status.Error(codes.Internal, "get user error")
+	ErrDeleteUser = status.Error(codes.Internal, "delete user error")
+	ErrUpdateUser = status.Error(codes.Internal, "user update error")
+)
