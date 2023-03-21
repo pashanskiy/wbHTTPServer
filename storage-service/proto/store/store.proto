@@ -7,20 +7,39 @@ import "core/core.proto";
 option go_package = "wbHTTPServer/store-storage-service/api/proto";
 
 service StoreStorageService {
-    rpc GetStore (GetStoreInfo) returns (StoreInfo);
-    rpc CreateStore (StoreInfo) returns (core.EmptyMessage);
-    rpc UpdateStore (StoreInfo) returns (core.EmptyMessage);
-    rpc DeleteStore (StoreInfo) returns (core.EmptyMessage);
+    rpc GetStores (StoreInfo) returns (GetStoresResponse);
+    rpc CreateStore (CreateStoreRequest) returns (core.EmptyMessage);
+    rpc UpdateStore (UpdateStoreRequest) returns (core.EmptyMessage);
+    rpc DeleteStore (DeleteStoreRequest) returns (core.EmptyMessage);
 }
 
-message GetStoreInfo {
-    string name = 1;
-    StoreInfo fields = 2;
+message GetStoresResponse {
+    repeated StoreInfo StoresInfo = 1;
 }
 
 message StoreInfo {
-    optional string name = 1;
+    optional string uid = 1;
+    optional string name = 2;
+    optional string address = 3;
+    optional bool working = 4;
+    optional string owner = 5;
+}
+
+message CreateStoreRequest {
+    string name = 1;
     optional string address = 2;
     optional bool working = 3;
     optional string owner = 4;
+}
+
+message UpdateStoreRequest {
+    string uid = 1;
+    optional string name = 2;
+    optional string address = 3;
+    optional bool working = 4;
+    optional string owner = 5;
+}
+
+message DeleteStoreRequest {
+    string uid = 1;
 }

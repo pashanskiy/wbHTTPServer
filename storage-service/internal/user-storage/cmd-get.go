@@ -5,6 +5,7 @@ import (
 	apiStorageService "wbHTTPServer/storage-service/api/user"
 	"wbHTTPServer/storage-service/internal/db/entity"
 	errService "wbHTTPServer/storage-service/internal/user-storage/errors"
+	"wbHTTPServer/storage-service/pkg/converters"
 
 	"github.com/rs/zerolog"
 )
@@ -12,7 +13,7 @@ import (
 func (receiver *UserStorageService) GetUsers(ctx context.Context, request *apiStorageService.UserInfo) (*apiStorageService.GetUsersResponse, error) {
 	logger := zerolog.Ctx(ctx)
 
-	userUID, err := receiver.string2UUID(logger, request.Uid)
+	userUID, err := converters.String2UUID(logger, request.Uid)
 	if err != nil {
 		logger.Error().Err(err).Msg("failed convert string to uuid")
 

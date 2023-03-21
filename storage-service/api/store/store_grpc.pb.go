@@ -20,7 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	StoreStorageService_GetStore_FullMethodName    = "/store_service.StoreStorageService/GetStore"
+	StoreStorageService_GetStores_FullMethodName   = "/store_service.StoreStorageService/GetStores"
 	StoreStorageService_CreateStore_FullMethodName = "/store_service.StoreStorageService/CreateStore"
 	StoreStorageService_UpdateStore_FullMethodName = "/store_service.StoreStorageService/UpdateStore"
 	StoreStorageService_DeleteStore_FullMethodName = "/store_service.StoreStorageService/DeleteStore"
@@ -30,10 +30,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StoreStorageServiceClient interface {
-	GetStore(ctx context.Context, in *GetStoreInfo, opts ...grpc.CallOption) (*StoreInfo, error)
-	CreateStore(ctx context.Context, in *StoreInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error)
-	UpdateStore(ctx context.Context, in *StoreInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error)
-	DeleteStore(ctx context.Context, in *StoreInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error)
+	GetStores(ctx context.Context, in *StoreInfo, opts ...grpc.CallOption) (*GetStoresResponse, error)
+	CreateStore(ctx context.Context, in *CreateStoreRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error)
+	UpdateStore(ctx context.Context, in *UpdateStoreRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error)
+	DeleteStore(ctx context.Context, in *DeleteStoreRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error)
 }
 
 type storeStorageServiceClient struct {
@@ -44,16 +44,16 @@ func NewStoreStorageServiceClient(cc grpc.ClientConnInterface) StoreStorageServi
 	return &storeStorageServiceClient{cc}
 }
 
-func (c *storeStorageServiceClient) GetStore(ctx context.Context, in *GetStoreInfo, opts ...grpc.CallOption) (*StoreInfo, error) {
-	out := new(StoreInfo)
-	err := c.cc.Invoke(ctx, StoreStorageService_GetStore_FullMethodName, in, out, opts...)
+func (c *storeStorageServiceClient) GetStores(ctx context.Context, in *StoreInfo, opts ...grpc.CallOption) (*GetStoresResponse, error) {
+	out := new(GetStoresResponse)
+	err := c.cc.Invoke(ctx, StoreStorageService_GetStores_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *storeStorageServiceClient) CreateStore(ctx context.Context, in *StoreInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
+func (c *storeStorageServiceClient) CreateStore(ctx context.Context, in *CreateStoreRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
 	out := new(core.EmptyMessage)
 	err := c.cc.Invoke(ctx, StoreStorageService_CreateStore_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -62,7 +62,7 @@ func (c *storeStorageServiceClient) CreateStore(ctx context.Context, in *StoreIn
 	return out, nil
 }
 
-func (c *storeStorageServiceClient) UpdateStore(ctx context.Context, in *StoreInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
+func (c *storeStorageServiceClient) UpdateStore(ctx context.Context, in *UpdateStoreRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
 	out := new(core.EmptyMessage)
 	err := c.cc.Invoke(ctx, StoreStorageService_UpdateStore_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -71,7 +71,7 @@ func (c *storeStorageServiceClient) UpdateStore(ctx context.Context, in *StoreIn
 	return out, nil
 }
 
-func (c *storeStorageServiceClient) DeleteStore(ctx context.Context, in *StoreInfo, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
+func (c *storeStorageServiceClient) DeleteStore(ctx context.Context, in *DeleteStoreRequest, opts ...grpc.CallOption) (*core.EmptyMessage, error) {
 	out := new(core.EmptyMessage)
 	err := c.cc.Invoke(ctx, StoreStorageService_DeleteStore_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -84,10 +84,10 @@ func (c *storeStorageServiceClient) DeleteStore(ctx context.Context, in *StoreIn
 // All implementations must embed UnimplementedStoreStorageServiceServer
 // for forward compatibility
 type StoreStorageServiceServer interface {
-	GetStore(context.Context, *GetStoreInfo) (*StoreInfo, error)
-	CreateStore(context.Context, *StoreInfo) (*core.EmptyMessage, error)
-	UpdateStore(context.Context, *StoreInfo) (*core.EmptyMessage, error)
-	DeleteStore(context.Context, *StoreInfo) (*core.EmptyMessage, error)
+	GetStores(context.Context, *StoreInfo) (*GetStoresResponse, error)
+	CreateStore(context.Context, *CreateStoreRequest) (*core.EmptyMessage, error)
+	UpdateStore(context.Context, *UpdateStoreRequest) (*core.EmptyMessage, error)
+	DeleteStore(context.Context, *DeleteStoreRequest) (*core.EmptyMessage, error)
 	mustEmbedUnimplementedStoreStorageServiceServer()
 }
 
@@ -95,16 +95,16 @@ type StoreStorageServiceServer interface {
 type UnimplementedStoreStorageServiceServer struct {
 }
 
-func (UnimplementedStoreStorageServiceServer) GetStore(context.Context, *GetStoreInfo) (*StoreInfo, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetStore not implemented")
+func (UnimplementedStoreStorageServiceServer) GetStores(context.Context, *StoreInfo) (*GetStoresResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStores not implemented")
 }
-func (UnimplementedStoreStorageServiceServer) CreateStore(context.Context, *StoreInfo) (*core.EmptyMessage, error) {
+func (UnimplementedStoreStorageServiceServer) CreateStore(context.Context, *CreateStoreRequest) (*core.EmptyMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateStore not implemented")
 }
-func (UnimplementedStoreStorageServiceServer) UpdateStore(context.Context, *StoreInfo) (*core.EmptyMessage, error) {
+func (UnimplementedStoreStorageServiceServer) UpdateStore(context.Context, *UpdateStoreRequest) (*core.EmptyMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateStore not implemented")
 }
-func (UnimplementedStoreStorageServiceServer) DeleteStore(context.Context, *StoreInfo) (*core.EmptyMessage, error) {
+func (UnimplementedStoreStorageServiceServer) DeleteStore(context.Context, *DeleteStoreRequest) (*core.EmptyMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteStore not implemented")
 }
 func (UnimplementedStoreStorageServiceServer) mustEmbedUnimplementedStoreStorageServiceServer() {}
@@ -120,26 +120,26 @@ func RegisterStoreStorageServiceServer(s grpc.ServiceRegistrar, srv StoreStorage
 	s.RegisterService(&StoreStorageService_ServiceDesc, srv)
 }
 
-func _StoreStorageService_GetStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetStoreInfo)
+func _StoreStorageService_GetStores_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StoreInfo)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StoreStorageServiceServer).GetStore(ctx, in)
+		return srv.(StoreStorageServiceServer).GetStores(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StoreStorageService_GetStore_FullMethodName,
+		FullMethod: StoreStorageService_GetStores_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoreStorageServiceServer).GetStore(ctx, req.(*GetStoreInfo))
+		return srv.(StoreStorageServiceServer).GetStores(ctx, req.(*StoreInfo))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _StoreStorageService_CreateStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StoreInfo)
+	in := new(CreateStoreRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -151,13 +151,13 @@ func _StoreStorageService_CreateStore_Handler(srv interface{}, ctx context.Conte
 		FullMethod: StoreStorageService_CreateStore_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoreStorageServiceServer).CreateStore(ctx, req.(*StoreInfo))
+		return srv.(StoreStorageServiceServer).CreateStore(ctx, req.(*CreateStoreRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _StoreStorageService_UpdateStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StoreInfo)
+	in := new(UpdateStoreRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -169,13 +169,13 @@ func _StoreStorageService_UpdateStore_Handler(srv interface{}, ctx context.Conte
 		FullMethod: StoreStorageService_UpdateStore_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoreStorageServiceServer).UpdateStore(ctx, req.(*StoreInfo))
+		return srv.(StoreStorageServiceServer).UpdateStore(ctx, req.(*UpdateStoreRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _StoreStorageService_DeleteStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StoreInfo)
+	in := new(DeleteStoreRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -187,7 +187,7 @@ func _StoreStorageService_DeleteStore_Handler(srv interface{}, ctx context.Conte
 		FullMethod: StoreStorageService_DeleteStore_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoreStorageServiceServer).DeleteStore(ctx, req.(*StoreInfo))
+		return srv.(StoreStorageServiceServer).DeleteStore(ctx, req.(*DeleteStoreRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -200,8 +200,8 @@ var StoreStorageService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*StoreStorageServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetStore",
-			Handler:    _StoreStorageService_GetStore_Handler,
+			MethodName: "GetStores",
+			Handler:    _StoreStorageService_GetStores_Handler,
 		},
 		{
 			MethodName: "CreateStore",

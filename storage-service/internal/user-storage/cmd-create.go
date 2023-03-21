@@ -4,9 +4,8 @@ import (
 	"context"
 	apiCore "wbHTTPServer/storage-service/api/core"
 	apiStorageService "wbHTTPServer/storage-service/api/user"
-	errService "wbHTTPServer/storage-service/internal/user-storage/errors"
-
 	"wbHTTPServer/storage-service/internal/db/entity"
+	errService "wbHTTPServer/storage-service/internal/user-storage/errors"
 
 	"github.com/gofrs/uuid/v5"
 	"github.com/rs/zerolog"

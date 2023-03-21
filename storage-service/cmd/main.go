@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"net"
 
+	apiStoreStorageService "wbHTTPServer/storage-service/api/store"
 	apiUserStorageService "wbHTTPServer/storage-service/api/user"
 	config "wbHTTPServer/storage-service/config"
 	dbService "wbHTTPServer/storage-service/internal/db"
 	envParse "wbHTTPServer/storage-service/internal/env-parse"
 	grpcInterceptors "wbHTTPServer/storage-service/internal/interceptor"
 	loggerService "wbHTTPServer/storage-service/internal/logger"
-	storageService "wbHTTPServer/storage-service/internal/user-storage"
+	storeStorageService "wbHTTPServer/storage-service/internal/store-storage"
+	userStorageService "wbHTTPServer/storage-service/internal/user-storage"
 
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -35,7 +37,8 @@ func main() {
 
 	grpcServer := grpc.NewServer(grpcInterceptors.GrpcServerWithInterceptors(logger)...)
 
-	apiUserStorageService.RegisterUserStorageServiceServer(grpcServer, storageService.NewUserStorageService(db))
+	apiUserStorageService.RegisterUserStorageServiceServer(grpcServer, userStorageService.NewUserStorageService(db))
+	apiStoreStorageService.RegisterStoreStorageServiceServer(grpcServer, storeStorageService.NewStoreStorageService(db))
 
 	runService(serviceConfig, grpcServer)
 }

@@ -15,9 +15,9 @@ service UserStorageService {
 
 message GetUsersResponse {
     repeated UserInfo UsersInfo = 1;
- }
+}
 
- message UserInfo {
+message UserInfo {
     optional string uid = 1;
     optional string surname = 2;
     optional string name = 3;
