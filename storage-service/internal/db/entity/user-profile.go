@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/gofrs/uuid/v5"
+	"github.com/rs/zerolog"
 
 	"gorm.io/gorm"
 )
@@ -22,3 +23,17 @@ type UserProfileEntity struct {
 }
 
 func (UserProfileEntity) TableName() string { return "users_profiles" }
+
+func (entity *UserProfileEntity) BeforeCreate(tx *gorm.DB) (err error) {
+	logger := zerolog.Ctx(tx.Statement.Context)
+
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		logger.Error().Err(err).Msg("failed generate uuid")
+
+		return ErrGenerateUUID
+	}
+
+	entity.UID = &uuid
+	return
+}
