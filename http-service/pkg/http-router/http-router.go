@@ -56,11 +56,9 @@ func (hr *HttpRouter) SetRoutes(routes []RouteHandler) {
 		if ok {
 			hr.logger.Fatal().Msgf("duplicate http route %s %s", r.Route.Method, r.Route.Pattern)
 		}
-		
+
 		hr.routesMap[r.Route] = r.HandlerFunc
 	}
 
 	hr.logger.Info().Msgf("routes setted: %d", len(routes))
 }
-
-func (hr *HttpRouter) Get() *HttpRouter { return hr }
