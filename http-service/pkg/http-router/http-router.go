@@ -32,7 +32,7 @@ func (hr *HttpRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		hr.logger.Error().Msgf(errMessage)
 
 		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte(errMessage))
+		w.Write([]byte(fmt.Sprintf(`{"error": "%s"}`, errMessage)))
 
 		return
 	}

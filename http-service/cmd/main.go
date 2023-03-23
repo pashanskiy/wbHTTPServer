@@ -8,8 +8,11 @@ import (
 	envParse "wbHTTPServer/http-service/internal/env-parse"
 	loggerService "wbHTTPServer/http-service/internal/logger"
 	userHTTPService "wbHTTPServer/http-service/internal/user-http"
+	grpcConnect "wbHTTPServer/http-service/pkg/grpc-connect"
+	grpcInterceptor "wbHTTPServer/http-service/pkg/grpc-connect/interceptor"
 	httpRouter "wbHTTPServer/http-service/pkg/http-router"
 	httpInterceptors "wbHTTPServer/http-service/pkg/http-router/interceptor"
+	userStorageAPI "wbHTTPServer/storage-service/api/user"
 
 	"github.com/rs/zerolog/log"
 )
@@ -28,8 +31,12 @@ func main() {
 		BuildDate,
 	)
 
+	userStorageApi := userStorageAPI.NewUserStorageServiceClient(
+		grpcConnect.GetServiceConnection(logger, serviceConfig.StorageServiceHost, grpcInterceptor.GetGRPCInterceptors(logger)...),
+	)
+
 	mux := httpRouter.New(logger, http.NewServeMux())
-	userHTTPService.NewUserHTTPService(mux).SetRoutes()
+	userHTTPService.NewUserHTTPService(mux, userStorageApi).SetRoutes()
 
 	runService(serviceConfig, httpInterceptors.AddToMux(logger, mux))
 }
