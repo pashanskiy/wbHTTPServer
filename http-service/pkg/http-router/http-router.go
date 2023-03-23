@@ -60,5 +60,5 @@ func (hr *HttpRouter) SetRoutes(routes []RouteHandler) {
 		hr.routesMap[r.Route] = r.HandlerFunc
 	}
 
-	hr.logger.Info().Msgf("routes setted: %d", len(routes))
+	hr.logger.Trace().Msgf("routes setted: %d", len(routes))
 }
