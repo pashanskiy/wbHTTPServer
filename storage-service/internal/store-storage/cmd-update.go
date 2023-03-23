@@ -28,8 +28,7 @@ func (receiver *StoreStorageService) UpdateStore(ctx context.Context, request *a
 		Working: request.Working,
 		Owner:   request.Owner,
 	}
-
-	if dbErr := receiver.db.Save(storeProfileEntity).Error; dbErr != nil {
+	if dbErr := receiver.db.Model(&storeProfileEntity).Updates(storeProfileEntity).Error; dbErr != nil {
 		logger.Error().Err(dbErr).Msg("failed update store")
 
 		return nil, errService.ErrUpdateStore
