@@ -29,7 +29,7 @@ func (receiver *UserStorageService) UpdateUser(ctx context.Context, request *api
 		Age:        request.Age,
 	}
 
-	if dbErr := receiver.db.Save(userProfileEntity).Error; dbErr != nil {
+	if dbErr := receiver.db.Model(&userProfileEntity).Updates(userProfileEntity).Error; dbErr != nil {
 		logger.Error().Err(dbErr).Msg("failed update user")
 
 		return nil, errService.ErrUpdateUser
