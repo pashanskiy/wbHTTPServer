@@ -13,16 +13,16 @@ import (
 )
 
 var (
-	handleCreateRoute = httpRouter.Route{
-		Pattern: servicePath + "/create",
-		Method:  http.MethodPost,
+	handleUpdateRoute = httpRouter.Route{
+		Pattern: servicePath + "/update",
+		Method:  http.MethodPatch,
 	}
 )
 
-func (s *UserHTTPService) handleCreate(w http.ResponseWriter, r *http.Request) {
+func (s *UserHTTPService) handleUpdate(w http.ResponseWriter, r *http.Request) {
 	logger := zerolog.Ctx(r.Context())
 
-	request := models.HandleCreateJSON{}
+	request := models.HandleUpdateJSON{}
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		logger.Error().Err(err).Msg("failed unmarshall request")
 
@@ -30,7 +30,8 @@ func (s *UserHTTPService) handleCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := s.userStorageApi.CreateUser(r.Context(), &proto.CreateUsersRequest{
+	_, err := s.userStorageApi.UpdateUser(r.Context(), &proto.UpdateUsersRequest{
+		Uid:        request.UID,
 		Surname:    request.Surname,
 		Name:       request.Name,
 		Secondname: request.Secondname,
@@ -38,13 +39,13 @@ func (s *UserHTTPService) handleCreate(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if err != nil {
-		logger.Error().Err(err).Msg("failed create user request")
+		logger.Error().Err(err).Msg("failed update user request")
 
 		httpErrors.ErrStatusInternal(w, err)
 		return
 	}
 
-	logger.Info().Msgf("user successfully created")
+	logger.Info().Msgf("user successfully updated")
 
 	w.WriteHeader(http.StatusOK)
 }

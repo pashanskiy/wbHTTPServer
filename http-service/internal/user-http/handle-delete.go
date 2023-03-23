@@ -13,16 +13,16 @@ import (
 )
 
 var (
-	handleCreateRoute = httpRouter.Route{
-		Pattern: servicePath + "/create",
-		Method:  http.MethodPost,
+	handleDeleteRoute = httpRouter.Route{
+		Pattern: servicePath + "/delete",
+		Method:  http.MethodDelete,
 	}
 )
 
-func (s *UserHTTPService) handleCreate(w http.ResponseWriter, r *http.Request) {
+func (s *UserHTTPService) handleDelete(w http.ResponseWriter, r *http.Request) {
 	logger := zerolog.Ctx(r.Context())
 
-	request := models.HandleCreateJSON{}
+	request := models.DeleteUserJSON{}
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		logger.Error().Err(err).Msg("failed unmarshall request")
 
@@ -30,21 +30,18 @@ func (s *UserHTTPService) handleCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := s.userStorageApi.CreateUser(r.Context(), &proto.CreateUsersRequest{
-		Surname:    request.Surname,
-		Name:       request.Name,
-		Secondname: request.Secondname,
-		Age:        request.Age,
+	_, err := s.userStorageApi.DeleteUser(r.Context(), &proto.DeleteUserRequest{
+		Uid: request.UID,
 	})
 
 	if err != nil {
-		logger.Error().Err(err).Msg("failed create user request")
+		logger.Error().Err(err).Msg("failed deleted user request")
 
 		httpErrors.ErrStatusInternal(w, err)
 		return
 	}
 
-	logger.Info().Msgf("user successfully created")
+	logger.Info().Msgf("user successfully deleted")
 
 	w.WriteHeader(http.StatusOK)
 }
