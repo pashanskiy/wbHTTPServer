@@ -13,3 +13,6 @@ go-gen: go-install
 
 go-run-storage:
 	go run ./storage-service/cmd/main.go
+
+go-run-http:
+	go run ./http-service/cmd/main.go
