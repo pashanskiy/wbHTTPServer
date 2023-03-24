@@ -16,3 +16,10 @@ go-run-storage:
 
 go-run-http:
 	go run ./http-service/cmd/main.go
+
+compose-run:
+	docker-compose build --build-arg DATE=24.03.23
+	docker-compose up
+
+compose-delete:
+	docker-compose rm -f

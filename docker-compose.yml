@@ -1,0 +1,21 @@
+version: '3'
+services:
+  storage-service:
+    build:
+      context: .
+      target: storage-service
+    ports:
+      - "9000:9000"
+    networks:
+      - backend
+  http-service:
+    build:
+      context: .
+      target: http-service
+    ports:
+      - "9001:9001"
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
