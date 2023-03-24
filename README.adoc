@@ -12,7 +12,7 @@ HTTP-GRPC CRUD Server
 * Sqlite хранилище, migrations, autoUpdateDate, softDelete, hooks
 
 
-REST API
+REST API REQUESTS
 ^^^^^^^^
 .POST /user/create 
 [options="header"]
